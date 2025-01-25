@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Search, ShoppingCart, Book as BookIcon } from "lucide-react";
+import { Search, ShoppingCart, Book as BookIcon, Menu } from "lucide-react";
 import { BookCard } from "./components/BookCard";
 import { CategoryCard } from "./components/CategoryCard";
 import { books, categories } from "./data/books";
 
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const filteredBooks = books.filter(
     (book) =>
@@ -19,11 +20,14 @@ function App() {
       <nav className="sticky top-0 z-50 bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
+            {/* Logo */}
             <div className="flex items-center space-x-3">
               <BookIcon className="h-8 w-8 text-white" />
               <span className="text-2xl font-bold">BookHaven</span>
             </div>
-            <div className="flex items-center space-x-6">
+
+            {/* Desktop Menu */}
+            <div className="hidden md:flex items-center space-x-6">
               <div className="relative">
                 <input
                   type="text"
@@ -38,7 +42,38 @@ function App() {
                 <ShoppingCart className="h-6 w-6" />
               </button>
             </div>
+
+            {/* Mobile Menu Button */}
+            <div className="md:hidden">
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="p-2 rounded-full hover:bg-indigo-500 transition"
+              >
+                <Menu className="h-6 w-6 text-white" />
+              </button>
+            </div>
           </div>
+
+          {/* Mobile Menu Dropdown */}
+          {isMobileMenuOpen && (
+            <div className="md:hidden mt-4 bg-indigo-700 rounded-lg shadow-md p-4">
+              <div className="relative mb-4">
+                <input
+                  type="text"
+                  placeholder="Search books..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-white focus:outline-none"
+                />
+                <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+              </div>
+              <ul className="space-y-2">
+                <li className="text-white hover:text-yellow-400">Home</li>
+                <li className="text-white hover:text-yellow-400">Categories</li>
+                <li className="text-white hover:text-yellow-400">Cart</li>
+              </ul>
+            </div>
+          )}
         </div>
       </nav>
 
@@ -66,7 +101,7 @@ function App() {
       {/* Categories */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <h2 className="text-3xl font-bold text-gray-800 mb-8">Categories</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
           {categories.map((category) => (
             <CategoryCard key={category.id} category={category} />
           ))}
@@ -76,7 +111,7 @@ function App() {
       {/* Books Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <h2 className="text-3xl font-bold text-gray-800 mb-8">Featured Books</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredBooks.map((book) => (
             <BookCard key={book.id} book={book} />
           ))}
