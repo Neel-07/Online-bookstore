@@ -214,8 +214,9 @@ function App() {
                 </ul>
               </div>
             </div>
-            <div className="border-t border-gray-700 mt-8 pt-4 text-center text-gray-400">
+            <div className="border-t border-gray-700 mt-8 pt-4 text-center text-gray-400 flex flex-col md:flex-row md:justify-between md:px-8">
               <p>&copy; 2025 BookSwap. All rights reserved.</p>
+              <p>Made with 💓 by Neel</p>
             </div>
           </footer>
         </motion.div>
